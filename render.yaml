@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: namma-mane-api
+    name: namma-mane-backend
     runtime: python
     rootDir: backend
     buildCommand: pip install -r requirements.txt
