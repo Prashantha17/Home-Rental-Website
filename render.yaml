@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: namma-mane-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    plan: free
+    region: singapore
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: DB_NAME
+        value: rentdb
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: CORS_ORIGINS
+        value: http://localhost:3000
