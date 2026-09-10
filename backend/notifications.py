@@ -257,63 +257,85 @@ def _dispatch_smtp_email(email: str, subject: str, plain_body: str, html_body: s
 
 
 def _dispatch_resend_email(email: str, subject: str, html_body: str, plain_body: str) -> bool:
-    api_key = os.getenv("RESEND_API_KEY", "").strip()
+    api_key = getattr(config, "RESEND_API_KEY", "") or os.getenv("RESEND_API_KEY", "").strip()
     if not api_key:
         return False
     try:
-        import httpx
-        from_email = os.getenv("RESEND_FROM_EMAIL", "Namma Mane <onboarding@resend.dev>").strip()
-        resp = httpx.post(
+        import urllib.request
+        import urllib.error
+        import json
+
+        from_email = getattr(config, "RESEND_FROM_EMAIL", "Namma Mane <onboarding@resend.dev>") or "Namma Mane <onboarding@resend.dev>"
+        payload = {
+            "from": from_email,
+            "to": [email],
+            "subject": subject,
+            "html": html_body,
+            "text": plain_body
+        }
+        data = json.dumps(payload).encode("utf-8")
+        req = urllib.request.Request(
             "https://api.resend.com/emails",
+            data=data,
             headers={
                 "Authorization": f"Bearer {api_key}",
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "User-Agent": "NammaManeBackend/1.0"
             },
-            json={
-                "from": from_email,
-                "to": [email],
-                "subject": subject,
-                "html": html_body,
-                "text": plain_body
-            },
-            timeout=12.0
+            method="POST"
         )
-        if resp.status_code in [200, 201]:
-            logger.info(f"✅ Real Email sent via Resend HTTPS API to {email} successfully!")
-            return True
-        else:
-            logger.warning(f"⚠️ Resend API responded with {resp.status_code}: {resp.text}")
+        with urllib.request.urlopen(req, timeout=12.0) as resp:
+            resp_body = resp.read().decode("utf-8")
+            if resp.status in [200, 201]:
+                logger.info(f"✅ Real Email sent via Resend HTTPS API to {email} successfully! Details: {resp_body}")
+                return True
+            else:
+                logger.warning(f"⚠️ Resend API responded with status {resp.status}: {resp_body}")
+    except urllib.error.HTTPError as e:
+        error_content = e.read().decode("utf-8", errors="ignore")
+        logger.error(f"❌ Resend API HTTP error {e.code}: {error_content}")
     except Exception as e:
         logger.error(f"❌ Resend API dispatch error: {e}")
     return False
 
 def _dispatch_brevo_email(email: str, subject: str, html_body: str, plain_body: str) -> bool:
-    api_key = os.getenv("BREVO_API_KEY", "").strip()
+    api_key = getattr(config, "BREVO_API_KEY", "") or os.getenv("BREVO_API_KEY", "").strip()
     if not api_key:
         return False
     try:
-        import httpx
-        sender_email = os.getenv("BREVO_SENDER_EMAIL", "noreply@nammamane.com").strip()
-        resp = httpx.post(
+        import urllib.request
+        import urllib.error
+        import json
+
+        sender_email = getattr(config, "BREVO_SENDER_EMAIL", "noreply@nammamane.com") or "noreply@nammamane.com"
+        payload = {
+            "sender": {"name": "Namma Mane 🏠", "email": sender_email},
+            "to": [{"email": email}],
+            "subject": subject,
+            "htmlContent": html_body,
+            "textContent": plain_body
+        }
+        data = json.dumps(payload).encode("utf-8")
+        req = urllib.request.Request(
             "https://api.brevo.com/v3/smtp/email",
+            data=data,
             headers={
                 "api-key": api_key,
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "User-Agent": "NammaManeBackend/1.0"
             },
-            json={
-                "sender": {"name": "Namma Mane 🏠", "email": sender_email},
-                "to": [{"email": email}],
-                "subject": subject,
-                "htmlContent": html_body,
-                "textContent": plain_body
-            },
-            timeout=12.0
+            method="POST"
         )
-        if resp.status_code in [200, 201]:
-            logger.info(f"✅ Real Email sent via Brevo HTTPS API to {email} successfully!")
-            return True
-        else:
-            logger.warning(f"⚠️ Brevo API responded with {resp.status_code}: {resp.text}")
+        with urllib.request.urlopen(req, timeout=12.0) as resp:
+            resp_body = resp.read().decode("utf-8")
+            if resp.status in [200, 201]:
+                logger.info(f"✅ Real Email sent via Brevo HTTPS API to {email} successfully! Details: {resp_body}")
+                return True
+            else:
+                logger.warning(f"⚠️ Brevo API responded with status {resp.status}: {resp_body}")
+    except urllib.error.HTTPError as e:
+        error_content = e.read().decode("utf-8", errors="ignore")
+        logger.error(f"❌ Brevo API HTTP error {e.code}: {error_content}")
     except Exception as e:
         logger.error(f"❌ Brevo API dispatch error: {e}")
     return False
@@ -338,12 +360,14 @@ def send_email(email: str, subject: str, body: str, html_body: str = None):
         )
 
     # Priority 1: Resend HTTPS API (Port 443 — 100% bypasses Render SMTP port blocks)
-    if os.getenv("RESEND_API_KEY"):
+    resend_key = getattr(config, "RESEND_API_KEY", "") or os.getenv("RESEND_API_KEY", "")
+    if resend_key:
         if _dispatch_resend_email(email, subject, html_body, body):
             return True
 
     # Priority 2: Brevo HTTPS API (Port 443)
-    if os.getenv("BREVO_API_KEY"):
+    brevo_key = getattr(config, "BREVO_API_KEY", "") or os.getenv("BREVO_API_KEY", "")
+    if brevo_key:
         if _dispatch_brevo_email(email, subject, html_body, body):
             return True
 

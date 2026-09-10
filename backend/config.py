@@ -38,6 +38,12 @@ class Config:
     FAST2SMS_API_KEY = os.getenv("FAST2SMS_API_KEY", "LmvhRTirWucJZV25AjC7nG8kqYaS1DbzoxBN06f9pOyH3UQFEPOLgyF0me4x78QHkdstKBThCwYANlPz").strip()
 
 
+    # Resend & Brevo HTTPS Email Gateway Configuration
+    RESEND_API_KEY = os.getenv("RESEND_API_KEY", "").strip()
+    RESEND_FROM_EMAIL = os.getenv("RESEND_FROM_EMAIL", "Namma Mane <onboarding@resend.dev>").strip()
+    BREVO_API_KEY = os.getenv("BREVO_API_KEY", "").strip()
+    BREVO_SENDER_EMAIL = os.getenv("BREVO_SENDER_EMAIL", "noreply@nammamane.com").strip()
+
     # Razorpay Payment Gateway Configuration (Free Test Mode Support)
     RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID", "rzp_test_rentapp2026").strip()
     RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET", "mock_razorpay_secret_key_2026").strip()
