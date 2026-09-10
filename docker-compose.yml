@@ -1,0 +1,70 @@
+services:
+  # MongoDB Database Service
+  mongodb:
+    image: mongo:7.0
+    container_name: rentapp_mongo
+    restart: always
+    # Bind to loopback interface only to prevent exposing database port to the public internet
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - rentapp_network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # FastAPI Backend Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: rentapp_backend
+    restart: always
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017
+      - DB_NAME=rentdb
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-SUPER_SECRET_KEY_FOR_RENT_APP_FASTAPI_PROD_2026}
+      - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:3000,http://localhost:5173}
+      - ADMIN_INITIAL_PASSWORD=${ADMIN_INITIAL_PASSWORD:-admin123}
+      - ENVIRONMENT=production
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/static/uploads:/app/static/uploads
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - rentapp_network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/api/health || exit 1"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  # Vite React Frontend Service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: rentapp_frontend
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - rentapp_network
+
+volumes:
+  mongo_data:
+
+networks:
+  rentapp_network:
+    driver: bridge

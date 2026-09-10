@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0a0f1e" />
+    <meta
+      name="description"
+      content="Namma Mane 🏠 - Find your home which matches your vibe. Zero broker commission, transparent pricing, and direct owner communication."
+    />
+    <link rel="apple-touch-icon" href="/logo192.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#002045",
+              "primary-container": "#1a365d",
+              "primary-fixed": "#d6e3ff",
+              "on-primary": "#ffffff",
+              "on-primary-container": "#86a0cd",
+              secondary: "#ad3035",
+              "secondary-container": "#fe6c6b",
+              "secondary-fixed": "#ffdad8",
+              "on-secondary": "#ffffff",
+              "on-secondary-container": "#6d0010",
+              surface: "#f9f9ff",
+              "surface-bright": "#f9f9ff",
+              "surface-dim": "#cfdaf1",
+              "surface-container": "#e7eeff",
+              "surface-container-high": "#dee8ff",
+              "surface-container-highest": "#d8e3fa",
+              "surface-container-low": "#f0f3ff",
+              "surface-container-lowest": "#ffffff",
+              "surface-variant": "#d8e3fa",
+              "on-surface": "#111c2c",
+              "on-surface-variant": "#43474e",
+              outline: "#74777f",
+              "outline-variant": "#c4c6cf",
+              tertiary: "#1b2127",
+              "tertiary-container": "#30363c",
+              "on-tertiary": "#ffffff",
+              error: "#ba1a1a",
+              "error-container": "#ffdad6"
+            },
+            fontFamily: {
+              headline: ["Montserrat", "sans-serif"],
+              body: ["Inter", "sans-serif"]
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              md: "0.5rem",
+              lg: "0.75rem",
+              xl: "1rem",
+              "2xl": "1.5rem",
+              "3xl": "2rem",
+              full: "9999px"
+            }
+          }
+        }
+      };
+    </script>
+    <title>Namma Mane 🏠 — Find your home which matches your vibe</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/index.jsx"></script>
+  </body>
+</html>
