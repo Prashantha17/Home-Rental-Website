@@ -359,16 +359,16 @@ def send_email(email: str, subject: str, body: str, html_body: str = None):
             content_html=html_paragraphs
         )
 
-    # Priority 1: Resend HTTPS API (Port 443 — 100% bypasses Render SMTP port blocks)
-    resend_key = getattr(config, "RESEND_API_KEY", "") or os.getenv("RESEND_API_KEY", "")
-    if resend_key:
-        if _dispatch_resend_email(email, subject, html_body, body):
-            return True
-
-    # Priority 2: Brevo HTTPS API (Port 443)
+    # Priority 1: Brevo HTTPS API (Port 443 — Universal recipient delivery to ANY email)
     brevo_key = getattr(config, "BREVO_API_KEY", "") or os.getenv("BREVO_API_KEY", "")
     if brevo_key:
         if _dispatch_brevo_email(email, subject, html_body, body):
+            return True
+
+    # Priority 2: Resend HTTPS API (Port 443)
+    resend_key = getattr(config, "RESEND_API_KEY", "") or os.getenv("RESEND_API_KEY", "")
+    if resend_key:
+        if _dispatch_resend_email(email, subject, html_body, body):
             return True
 
     # Priority 3: SendGrid API
