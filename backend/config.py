@@ -30,12 +30,13 @@ class Config:
     
     # 100% Free Gmail SMTP Configuration
     SMTP_SERVER = os.getenv("SMTP_SERVER", "smtp.gmail.com").strip()
-    SMTP_PORT = int(os.getenv("SMTP_PORT", "587").strip())
-    SMTP_EMAIL = os.getenv("SMTP_EMAIL", "").strip()
-    SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "").strip()
+    SMTP_PORT = int(os.getenv("SMTP_PORT", "465").strip())
+    SMTP_EMAIL = os.getenv("SMTP_EMAIL", "hmp7964@gmail.com").strip()
+    SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "yoqstghwbqqtadfg").strip()
 
     # Free Indian Fast2SMS Gateway Configuration
-    FAST2SMS_API_KEY = os.getenv("FAST2SMS_API_KEY", "").strip()
+    FAST2SMS_API_KEY = os.getenv("FAST2SMS_API_KEY", "LmvhRTirWucJZV25AjC7nG8kqYaS1DbzoxBN06f9pOyH3UQFEPOLgyF0me4x78QHkdstKBThCwYANlPz").strip()
+
 
     # Razorpay Payment Gateway Configuration (Free Test Mode Support)
     RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID", "rzp_test_rentapp2026").strip()

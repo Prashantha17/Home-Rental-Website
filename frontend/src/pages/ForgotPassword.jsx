@@ -70,14 +70,11 @@ const ForgotPassword = () => {
     setLoading(true);
     setError("");
     try {
-      const res = await authApi.forgotPassword(cleanEmail);
-      if (res && res.otp) {
-        toast.success(`OTP sent to ${cleanEmail}! Verification Code: ${res.otp}`, 8000);
-      } else {
-        toast.success(`6-digit OTP sent to ${cleanEmail}! Check your inbox.`);
-      }
+      await authApi.forgotPassword(cleanEmail);
+      toast.success(`6-digit OTP sent to ${cleanEmail}! Please check your inbox.`);
       setStep(2);
       startResendTimer();
+
 
       setTimeout(() => otpRefs.current[0]?.focus(), 150);
     } catch (err) {

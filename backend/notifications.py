@@ -232,15 +232,29 @@ def _dispatch_smtp_email(email: str, subject: str, plain_body: str, html_body: s
             if html_body:
                 msg.attach(MIMEText(html_body, "html"))
             
-            with smtplib.SMTP(smtp_server, smtp_port, timeout=15) as server:
-                server.starttls()
-                server.login(smtp_email, smtp_password)
-                server.sendmail(smtp_email, email, msg.as_string())
+            # Prioritize port 465 (SMTP_SSL) for cloud environments
+            if smtp_port == 465:
+                with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=15) as server:
+                    server.login(smtp_email, smtp_password)
+                    server.sendmail(smtp_email, email, msg.as_string())
+            else:
+                try:
+                    with smtplib.SMTP(smtp_server, smtp_port, timeout=15) as server:
+                        server.starttls()
+                        server.login(smtp_email, smtp_password)
+                        server.sendmail(smtp_email, email, msg.as_string())
+                except Exception:
+                    logger.info("Port 587 failed, falling back to port 465 SSL...")
+                    with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=15) as server:
+                        server.login(smtp_email, smtp_password)
+                        server.sendmail(smtp_email, email, msg.as_string())
+
             logger.info(f"✅ Real Email sent via SMTP to {email} successfully!")
         except Exception as e:
             logger.error(f"❌ Failed to send real Email via SMTP to {email}: {e}", exc_info=True)
     else:
         logger.warning(f"⚠️ SMTP credentials missing! (SMTP_EMAIL={'set' if smtp_email else 'empty'}, SMTP_PASSWORD={'set' if smtp_password else 'empty'})")
+
 
 def send_email(email: str, subject: str, body: str, html_body: str = None):
     """
