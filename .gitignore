@@ -9,6 +9,9 @@ dist/
 **/dist/
 build/
 **/build/
+.vite/
+**/.vite/
+
 
 # Python
 __pycache__/
