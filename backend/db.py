@@ -15,13 +15,14 @@ try:
     # High performance connection pool configuration for sub-millisecond connection reuse
     client = MongoClient(
         MONGO_URI,
-        serverSelectionTimeoutMS=2000,
+        serverSelectionTimeoutMS=8000,
         maxPoolSize=50,
-        minPoolSize=10,
-        maxIdleTimeMS=30000,
-        connectTimeoutMS=2000,
-        socketTimeoutMS=3000
+        minPoolSize=5,
+        maxIdleTimeMS=45000,
+        connectTimeoutMS=8000,
+        socketTimeoutMS=8000
     )
+
     db = client[DB_NAME]
     # Ping database to trigger connection verification
     client.admin.command('ping')
