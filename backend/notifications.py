@@ -256,9 +256,71 @@ def _dispatch_smtp_email(email: str, subject: str, plain_body: str, html_body: s
         logger.warning(f"⚠️ SMTP credentials missing! (SMTP_EMAIL={'set' if smtp_email else 'empty'}, SMTP_PASSWORD={'set' if smtp_password else 'empty'})")
 
 
+def _dispatch_resend_email(email: str, subject: str, html_body: str, plain_body: str) -> bool:
+    api_key = os.getenv("RESEND_API_KEY", "").strip()
+    if not api_key:
+        return False
+    try:
+        import httpx
+        from_email = os.getenv("RESEND_FROM_EMAIL", "Namma Mane <onboarding@resend.dev>").strip()
+        resp = httpx.post(
+            "https://api.resend.com/emails",
+            headers={
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json"
+            },
+            json={
+                "from": from_email,
+                "to": [email],
+                "subject": subject,
+                "html": html_body,
+                "text": plain_body
+            },
+            timeout=12.0
+        )
+        if resp.status_code in [200, 201]:
+            logger.info(f"✅ Real Email sent via Resend HTTPS API to {email} successfully!")
+            return True
+        else:
+            logger.warning(f"⚠️ Resend API responded with {resp.status_code}: {resp.text}")
+    except Exception as e:
+        logger.error(f"❌ Resend API dispatch error: {e}")
+    return False
+
+def _dispatch_brevo_email(email: str, subject: str, html_body: str, plain_body: str) -> bool:
+    api_key = os.getenv("BREVO_API_KEY", "").strip()
+    if not api_key:
+        return False
+    try:
+        import httpx
+        sender_email = os.getenv("BREVO_SENDER_EMAIL", "noreply@nammamane.com").strip()
+        resp = httpx.post(
+            "https://api.brevo.com/v3/smtp/email",
+            headers={
+                "api-key": api_key,
+                "Content-Type": "application/json"
+            },
+            json={
+                "sender": {"name": "Namma Mane 🏠", "email": sender_email},
+                "to": [{"email": email}],
+                "subject": subject,
+                "htmlContent": html_body,
+                "textContent": plain_body
+            },
+            timeout=12.0
+        )
+        if resp.status_code in [200, 201]:
+            logger.info(f"✅ Real Email sent via Brevo HTTPS API to {email} successfully!")
+            return True
+        else:
+            logger.warning(f"⚠️ Brevo API responded with {resp.status_code}: {resp.text}")
+    except Exception as e:
+        logger.error(f"❌ Brevo API dispatch error: {e}")
+    return False
+
 def send_email(email: str, subject: str, body: str, html_body: str = None):
     """
-    Sends real email via SendGrid or Gmail SMTP, and logs simulated email.
+    Sends real email via Resend HTTPS API, Brevo, SendGrid, or Gmail SMTP fallback.
     """
     if not email:
         return False
@@ -275,15 +337,21 @@ def send_email(email: str, subject: str, body: str, html_body: str = None):
             content_html=html_paragraphs
         )
 
-    # Priority 1: Gmail SMTP (100% Free)
-    if smtp_email and smtp_password:
-        _dispatch_smtp_email(email, subject, body, html_body)
-    # Priority 2: SendGrid API
-    elif sendgrid_client and Mail and config.SENDER_EMAIL:
+    # Priority 1: Resend HTTPS API (Port 443 — 100% bypasses Render SMTP port blocks)
+    if os.getenv("RESEND_API_KEY"):
+        if _dispatch_resend_email(email, subject, html_body, body):
+            return True
+
+    # Priority 2: Brevo HTTPS API (Port 443)
+    if os.getenv("BREVO_API_KEY"):
+        if _dispatch_brevo_email(email, subject, html_body, body):
+            return True
+
+    # Priority 3: SendGrid API
+    if sendgrid_client and Mail and config.SENDER_EMAIL:
         try:
             logger.info(f"🚀 Real SendGrid API triggered for Email to {email}")
             message_obj = Mail(
-
                 from_email=config.SENDER_EMAIL,
                 to_emails=email,
                 subject=subject,
@@ -292,8 +360,13 @@ def send_email(email: str, subject: str, body: str, html_body: str = None):
             )
             response = sendgrid_client.send(message_obj)
             logger.info(f"✅ Real Email sent via SendGrid! Status: {response.status_code}")
+            return True
         except Exception as e:
             logger.error(f"❌ Failed to send real Email via SendGrid: {e}")
+
+    # Priority 4: Gmail SMTP (Fallback)
+    if smtp_email and smtp_password:
+        _dispatch_smtp_email(email, subject, body, html_body)
 
     logger.info("=" * 70)
     logger.info(f"📧 EMAIL NOTIFICATION DISPATCHED TO: {email}")
@@ -302,4 +375,5 @@ def send_email(email: str, subject: str, body: str, html_body: str = None):
     logger.info(body)
     logger.info("=" * 70)
     return True
+
 
