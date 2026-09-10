@@ -658,10 +658,13 @@ The Namma Mane 🏠 Team"""
         <p>If you did not request this password reset, you can safely ignore this email.</p>
     """
     from notifications import _build_html_email_template
+    frontend_url = getattr(config, "FRONTEND_URL", "https://home-rental-website-ten.vercel.app") or os.getenv("FRONTEND_URL", "https://home-rental-website-ten.vercel.app")
     html_body = _build_html_email_template(
         title=subject,
         preheader="Your 6-digit password reset code",
         content_html=html_content,
+        action_url=f"{frontend_url.rstrip('/')}/forgot-password",
+        action_text="Reset Password on Website"
     )
 
     background_tasks.add_task(send_email, clean_email, subject, plain_body, html_body)
