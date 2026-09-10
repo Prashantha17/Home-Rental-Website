@@ -307,7 +307,7 @@ def _dispatch_brevo_email(email: str, subject: str, html_body: str, plain_body: 
         import urllib.error
         import json
 
-        sender_email = getattr(config, "BREVO_SENDER_EMAIL", "noreply@nammamane.com") or "noreply@nammamane.com"
+        sender_email = getattr(config, "BREVO_SENDER_EMAIL", "hmp7964@gmail.com") or "hmp7964@gmail.com"
         payload = {
             "sender": {"name": "Namma Mane 🏠", "email": sender_email},
             "to": [{"email": email}],

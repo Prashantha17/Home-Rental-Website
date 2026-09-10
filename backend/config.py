@@ -42,7 +42,7 @@ class Config:
     RESEND_API_KEY = os.getenv("RESEND_API_KEY", "").strip()
     RESEND_FROM_EMAIL = os.getenv("RESEND_FROM_EMAIL", "Namma Mane <onboarding@resend.dev>").strip()
     BREVO_API_KEY = os.getenv("BREVO_API_KEY", "").strip()
-    BREVO_SENDER_EMAIL = os.getenv("BREVO_SENDER_EMAIL", "noreply@nammamane.com").strip()
+    BREVO_SENDER_EMAIL = os.getenv("BREVO_SENDER_EMAIL", "hmp7964@gmail.com").strip()
 
     # Razorpay Payment Gateway Configuration (Free Test Mode Support)
     RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID", "rzp_test_rentapp2026").strip()
