@@ -66,8 +66,16 @@ async def lifespan(app: FastAPI):
         logger.warning("Database initialization notice: %s", e)
     yield
     logger.info("Namma Mane Backend Server is shutting down cleanly.")
+is_prod = os.getenv("ENVIRONMENT", "development").strip().lower() == "production"
 
-app = FastAPI(title="Namma Mane API", version="1.3.0", lifespan=lifespan)
+app = FastAPI(
+    title="Namma Mane API",
+    version="1.3.0",
+    lifespan=lifespan,
+    docs_url=None if is_prod else "/docs",
+    redoc_url=None if is_prod else "/redoc",
+    openapi_url=None if is_prod else "/openapi.json"
+)
 
 # High-Performance GZip Compression (reduces JSON transfer payload by 75-80%)
 app.add_middleware(GZipMiddleware, minimum_size=1000)
@@ -164,6 +172,50 @@ def safe_object_id(id_str: str) -> ObjectId:
 # Create static directories for photo uploads
 UPLOAD_DIR = os.path.join(os.path.dirname(__file__), "static", "uploads")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
+
+# Image Security & Deep Malware/Polyglot Validation Utility
+import io
+from PIL import Image
+
+def validate_image_file(file_bytes: bytes, filename: str) -> str:
+    """
+    Strictly validates that uploaded file is a genuine, safe image:
+    1. Size check (< MAX_UPLOAD_SIZE_MB)
+    2. Extension check (.jpg, .jpeg, .png, .webp)
+    3. Magic bytes inspection (header signature verification)
+    4. Deep structural parsing with PIL (ensures file is not a disguised script/polyglot)
+    Returns the normalized extension.
+    """
+    if not file_bytes:
+        raise HTTPException(status_code=400, detail="Uploaded file is empty.")
+
+    if len(file_bytes) > config.MAX_UPLOAD_SIZE_MB * 1024 * 1024:
+        raise HTTPException(status_code=400, detail=f"Image size exceeds maximum limit of {config.MAX_UPLOAD_SIZE_MB}MB")
+
+    ext = filename.split(".")[-1].lower() if "." in filename else ""
+    if ext not in config.ALLOWED_IMAGE_EXTENSIONS:
+        raise HTTPException(status_code=400, detail="Only JPG, JPEG, PNG, and WEBP images are supported.")
+
+    # Verify Magic Bytes signatures
+    is_jpeg = file_bytes.startswith(b"\xff\xd8\xff")
+    is_png = file_bytes.startswith(b"\x89PNG\r\n\x1a\n")
+    is_webp = file_bytes.startswith(b"RIFF") and b"WEBP" in file_bytes[8:16]
+
+    if not (is_jpeg or is_png or is_webp):
+        raise HTTPException(status_code=400, detail="Invalid image content. File signature does not match supported image format.")
+
+    # Deep structural validation using PIL
+    try:
+        with Image.open(io.BytesIO(file_bytes)) as img:
+            img.verify()
+            detected_format = (img.format or "").lower()
+            if detected_format not in ["jpeg", "png", "webp"]:
+                raise HTTPException(status_code=400, detail="Unsupported image format inside file.")
+    except Exception:
+        raise HTTPException(status_code=400, detail="Corrupted or disguised image detected. Upload rejected.")
+
+    return "jpg" if ext in ["jpg", "jpeg"] else ext
+
 
 # Mount static files folder
 app.mount("/static", StaticFiles(directory=os.path.join(os.path.dirname(__file__), "static")), name="static")
@@ -390,7 +442,12 @@ support@nammamane.com"""
 
 @app.post("/api/auth/verify-otp")
 def verify_otp(payload: OtpVerifyRequest):
+    # Rate-limit OTP verification attempts (max 5 per phone per 5 minutes)
+    if not rate_limiter.is_allowed(f"verify_otp:{payload.phone}", max_requests=5, window_seconds=300):
+        raise HTTPException(status_code=429, detail="Too many invalid OTP attempts. Please wait 5 minutes before trying again.")
+
     if payload.code == "FIREBASE_VERIFIED":
+
         query = {"phone": payload.phone}
         if payload.username:
             query["username"] = payload.username
@@ -504,7 +561,12 @@ def verify_email_otp(payload: EmailOtpVerifyRequest):
     """Verify the 6-digit email OTP and mark the user's email as verified."""
     email = payload.email.lower().strip()
 
+    # Rate-limit verification attempts (max 5 per email per 5 minutes)
+    if not rate_limiter.is_allowed(f"verify_email_otp:{email}", max_requests=5, window_seconds=300):
+        raise HTTPException(status_code=429, detail="Too many invalid OTP attempts. Please wait 5 minutes before trying again.")
+
     record = email_otps_col.find_one({"email": email})
+
     if not record:
         raise HTTPException(status_code=400, detail="OTP not found or already used. Please request a new one.")
 
@@ -619,7 +681,12 @@ def verify_reset_otp(payload: VerifyResetOtpRequest):
     if not clean_otp:
         raise HTTPException(status_code=400, detail="OTP code is required.")
 
+    # Rate-limit verification attempts (max 5 per email per 5 minutes)
+    if not rate_limiter.is_allowed(f"verify_reset_otp:{clean_email}", max_requests=5, window_seconds=300):
+        raise HTTPException(status_code=429, detail="Too many invalid OTP attempts. Please wait 5 minutes before trying again.")
+
     record = db["password_resets"].find_one({"email": clean_email})
+
     if not record:
         raise HTTPException(status_code=400, detail="No OTP request found for this email or it has already been used.")
 
@@ -1183,15 +1250,10 @@ def get_inbox_threads(current_user: dict = Depends(get_current_user)):
 
 @app.post("/api/properties/upload-image")
 def upload_image(file: UploadFile = File(...), current_user: dict = Depends(require_role(["owner", "admin"]))):
-    ext = file.filename.split(".")[-1].lower()
-    if ext not in config.ALLOWED_IMAGE_EXTENSIONS:
-        raise HTTPException(status_code=400, detail="Only JPG, JPEG, PNG, and WEBP images are supported")
-        
     file_bytes = file.file.read()
-    if len(file_bytes) > config.MAX_UPLOAD_SIZE_MB * 1024 * 1024:
-        raise HTTPException(status_code=400, detail=f"Image size exceeds maximum limit of {config.MAX_UPLOAD_SIZE_MB}MB")
+    clean_ext = validate_image_file(file_bytes, file.filename or "image.jpg")
 
-    filename = f"{uuid.uuid4().hex}.{ext}"
+    filename = f"{uuid.uuid4().hex}.{clean_ext}"
     filepath = os.path.join(UPLOAD_DIR, filename)
     
     with open(filepath, "wb") as buffer:
@@ -1199,6 +1261,7 @@ def upload_image(file: UploadFile = File(...), current_user: dict = Depends(requ
         
     image_url = f"http://127.0.0.1:8000/static/uploads/{filename}"
     return {"imageUrl": image_url}
+
 
 
 @app.post("/api/properties/create")

@@ -8,7 +8,8 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 
 from fastapi.testclient import TestClient
 from fastapi import HTTPException
-from main import app, validate_password_strength
+from main import app, validate_password_strength, validate_image_file
+
 from auth import hash_password, verify_password, create_access_token, users_col
 
 client = TestClient(app)
@@ -266,6 +267,55 @@ def test_rent_negotiation_flow_and_rejection():
             "Authorization": f"Bearer {admin_token}"
         })
         assert reject_res.status_code == 200
+
+
+def test_image_security_and_magic_bytes():
+    import io
+    from PIL import Image
+
+    # 1. Valid in-memory JPEG
+    img = Image.new("RGB", (100, 100), color="blue")
+    buf = io.BytesIO()
+    img.save(buf, format="JPEG")
+    valid_bytes = buf.getvalue()
+
+    ext = validate_image_file(valid_bytes, "photo.jpg")
+    assert ext == "jpg"
+
+    # 2. Fake image (malicious script disguised with .jpg extension)
+    malicious_bytes = b"<?php echo 'malicious payload'; ?>"
+    with pytest.raises(HTTPException) as exc_info:
+        validate_image_file(malicious_bytes, "exploit.jpg")
+    assert exc_info.value.status_code == 400
+    assert "Invalid image content" in exc_info.value.detail
+
+    # 3. Disguised text file
+    fake_png = b"\x89PNG\r\n\x1a\nCorrupted or fake PNG stream"
+    with pytest.raises(HTTPException) as exc_info:
+        validate_image_file(fake_png, "fake.png")
+    assert exc_info.value.status_code == 400
+
+    # 4. Disallowed extension
+    with pytest.raises(HTTPException) as exc_info:
+        validate_image_file(valid_bytes, "script.svg")
+    assert exc_info.value.status_code == 400
+
+
+def test_otp_verification_rate_limiting():
+    phone = "+919999999999"
+    for attempt in range(5):
+        client.post("/api/auth/verify-otp", json={"phone": phone, "code": f"12345{attempt}"})
+
+    # 6th attempt should be blocked by rate limiter with 429
+    blocked_res = client.post("/api/auth/verify-otp", json={"phone": phone, "code": "999999"})
+    assert blocked_res.status_code == 429
+    assert "Too many" in blocked_res.json()["detail"]
+
+
+def test_api_docs_available_in_development():
+    # In development mode, OpenAPI docs should be available
+    res = client.get("/docs")
+    assert res.status_code == 200
 
 
 
