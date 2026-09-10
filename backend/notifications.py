@@ -172,10 +172,18 @@ def send_sms(phone: str, message: str):
     logger.info("=" * 60)
     return True
 
-def _build_html_email_template(title: str, preheader: str, content_html: str, action_url: str = "http://localhost:3000", action_text: str = "Open Dashboard") -> str:
+def _build_html_email_template(title: str, preheader: str, content_html: str, action_url: str = None, action_text: str = "Open Website") -> str:
     """
     Returns an ultra-modern, responsive HTML email template with Namma Mane 🏠 branding.
     """
+    if not action_url or "localhost" in action_url:
+        default_front = getattr(config, "FRONTEND_URL", "https://home-rental-website-ten.vercel.app") or "https://home-rental-website-ten.vercel.app"
+        if action_url and "/register" in action_url:
+            action_url = f"{default_front.rstrip('/')}/register"
+        elif action_url and "/forgot-password" in action_url:
+            action_url = f"{default_front.rstrip('/')}/forgot-password"
+        else:
+            action_url = default_front.rstrip('/')
     return f"""<!DOCTYPE html>
 <html>
 <head>

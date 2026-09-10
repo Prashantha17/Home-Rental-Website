@@ -9,6 +9,7 @@ class Config:
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "SUPER_SECRET_KEY_FOR_RENT_APP_FASTAPI_PROD_2026").strip()
     JWT_ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256").strip()
     ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "1440").strip())
+    FRONTEND_URL = os.getenv("FRONTEND_URL", "https://home-rental-website-ten.vercel.app").strip()
 
     # Database Configuration
     MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017").strip()

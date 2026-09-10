@@ -540,11 +540,12 @@ The Namma Mane 🏠 Team"""
         <p>If you did not create a Namma Mane 🏠 account, you can safely ignore this email.</p>
     """
     from notifications import _build_html_email_template
+    frontend_url = getattr(config, "FRONTEND_URL", "https://home-rental-website-ten.vercel.app") or os.getenv("FRONTEND_URL", "https://home-rental-website-ten.vercel.app")
     html_body = _build_html_email_template(
         title=subject,
         preheader="Your email verification code is inside",
         content_html=html_content,
-        action_url="http://localhost:3000/register",
+        action_url=f"{frontend_url.rstrip('/')}/register",
         action_text="Back to Registration"
     )
 
@@ -1160,7 +1161,7 @@ def send_message(payload: MessageSendRequest, background_tasks: BackgroundTasks,
     receiver_email = receiver_user.get("email", "")
     if receiver_email:
         sender_name = current_user.get("username", "A user")
-        frontend_url = os.getenv("FRONTEND_URL", "http://localhost:3000").rstrip("/")
+        frontend_url = os.getenv("FRONTEND_URL", "https://home-rental-website-ten.vercel.app").rstrip("/")
         email_subject = f"💬 New Message from {sender_name} on Namma Mane 🏠"
         email_body = f"""Hello {payload.receiver},
 
@@ -1875,7 +1876,7 @@ def reject_rental_request(req_id: str, background_tasks: BackgroundTasks, curren
         {"$set": {"status": "Rejected"}}
     )
 
-    frontend_url = os.getenv("FRONTEND_URL", "http://localhost:3000").rstrip("/")
+    frontend_url = os.getenv("FRONTEND_URL", "https://home-rental-website-ten.vercel.app").rstrip("/")
 
     # Notify Tenant of Decision
     if ObjectId.is_valid(req["tenant_id"]):
@@ -2053,7 +2054,7 @@ def sign_rental_agreement(agreement_id: str, payload: AgreementSignRequest, back
     updated_ag = agreements_col.find_one({"_id": ag_obj_id})
 
     # Notify counterparty via Email
-    frontend_url = os.getenv("FRONTEND_URL", "http://localhost:3000").rstrip("/")
+    frontend_url = os.getenv("FRONTEND_URL", "https://home-rental-website-ten.vercel.app").rstrip("/")
     prop_title = agreement.get("property_address", "Property")
     status_label = "Fully Executed & Legally Signed" if update_data.get("status") == "Executed" else f"Signed by {payload.signee_type.capitalize()}"
 
