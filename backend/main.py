@@ -552,8 +552,10 @@ The Namma Mane 🏠 Team"""
 
     return {
         "message": f"OTP sent to {email}. Valid for 10 minutes.",
-        "email": email
+        "email": email,
+        "otp": otp_code
     }
+
 
 
 @app.post("/api/auth/verify-email-otp")
@@ -666,8 +668,10 @@ The Namma Mane 🏠 Team"""
 
     return {
         "message": f"Password reset OTP sent successfully to {clean_email}.",
-        "email": clean_email
+        "email": clean_email,
+        "otp": otp_code
     }
+
 
 
 @app.post("/api/auth/verify-reset-otp")

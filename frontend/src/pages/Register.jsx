@@ -80,10 +80,15 @@ const Register = () => {
     setLoading(true);
     try {
       await authApi.register(form);
-      await authApi.sendEmailOtp(form.email.trim(), form.username.trim());
-      toast.success(`OTP sent to ${form.email}! Check your inbox.`);
+      const otpRes = await authApi.sendEmailOtp(form.email.trim(), form.username.trim());
+      if (otpRes && otpRes.otp) {
+        toast.success(`OTP sent to ${form.email}! Verification Code: ${otpRes.otp}`, 8000);
+      } else {
+        toast.success(`OTP sent to ${form.email}! Check your inbox.`);
+      }
       setStep(2);
       startResendTimer();
+
     } catch (err) {
       setErrors({ server: err.message });
       toast.error(err.message || "Registration failed. Please try again.");
@@ -142,12 +147,15 @@ const Register = () => {
     }
   };
 
-  // ── Resend OTP ────────────────────────────────────────────────────
   const handleResend = async () => {
     if (resendTimer > 0) return;
     try {
-      await authApi.sendEmailOtp(form.email.trim(), form.username.trim());
-      toast.success("New OTP sent to your email!");
+      const res = await authApi.sendEmailOtp(form.email.trim(), form.username.trim());
+      if (res && res.otp) {
+        toast.success(`New OTP sent! Verification Code: ${res.otp}`, 8000);
+      } else {
+        toast.success("New OTP sent to your email!");
+      }
       setOtp(["", "", "", "", "", ""]);
       setOtpError("");
       startResendTimer();
@@ -156,6 +164,7 @@ const Register = () => {
       toast.error(err.message || "Failed to resend OTP.");
     }
   };
+
 
   // ── Google Sign-Up ────────────────────────────────────────────────
   const handleGoogleSignUp = async () => {
