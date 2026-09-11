@@ -6,6 +6,47 @@
  */
 export const INDIA_LOCATIONS = {
   Karnataka: {
+    "Bagalkote": [
+      "Bagalkote",
+      "Badami",
+      "Bilagi",
+      "Hungund",
+      "Jamkhandi",
+      "Mudhol",
+      "Guledagudda",
+      "Ilkal",
+      "Rabkavi Banhatti"
+    ],
+    "Ballari": [
+      "Ballari City",
+      "Ballari Rural",
+      "Kampli",
+      "Kurugodu",
+      "Sanduru",
+      "Siruguppa"
+    ],
+    "Belagavi": [
+      "Belagavi City",
+      "Gokak",
+      "Chikkodi",
+      "Bailhongal",
+      "Athani",
+      "Saundatti",
+      "Khanapur",
+      "Ramdurg",
+      "Raybag",
+      "Hukkeri",
+      "Mudalagi",
+      "Kittur",
+      "Nippani",
+      "Kagawad"
+    ],
+    "Bengaluru Rural": [
+      "Devanahalli",
+      "Doddaballapura",
+      "Hosakote",
+      "Nelamangala"
+    ],
     "Bengaluru Urban": [
       "Indiranagar (Bengaluru East)",
       "BTM Layout (Bengaluru South)",
@@ -23,21 +64,47 @@ export const INDIA_LOCATIONS = {
       "Bannerghatta Road (Anekal)",
       "Anekal"
     ],
-    "Bengaluru Rural": [
-      "Devanahalli",
-      "Doddaballapura",
-      "Hosakote",
-      "Nelamangala"
+    "Bidar": [
+      "Bidar",
+      "Basavakalyan",
+      "Bhalki",
+      "Humnabad",
+      "Aurad",
+      "Hulsoor",
+      "Kamalnagar"
     ],
-    Mysuru: [
-      "VV Mohalla (Mysuru City)",
-      "Jayalakshmipuram",
-      "Gokulam",
-      "Kuvempunagar",
-      "Hunsur",
-      "Nanjangud",
-      "T. Narasipura",
-      "K.R. Nagar"
+    "Chamarajanagar": [
+      "Chamarajanagar",
+      "Gundlupete",
+      "Kollegala",
+      "Yelandur",
+      "Hanur"
+    ],
+    "Chikkaballapura": [
+      "Chikkaballapura",
+      "Bagepalli",
+      "Chintamani",
+      "Gauribidanur",
+      "Gudibanda",
+      "Sidlaghatta"
+    ],
+    "Chikkamagaluru": [
+      "Chikkamagaluru",
+      "Kadur",
+      "Koppa",
+      "Mudigere",
+      "Narasimharajapura",
+      "Sringeri",
+      "Tarikere",
+      "Ajjampura"
+    ],
+    "Chitradurga": [
+      "Chitradurga",
+      "Challakere",
+      "Hiriyur",
+      "Holalkere",
+      "Hosadurga",
+      "Molakalmuru"
     ],
     "Dakshina Kannada": [
       "Mangaluru City",
@@ -48,31 +115,204 @@ export const INDIA_LOCATIONS = {
       "Kadaba",
       "Moodabidri"
     ],
-    Udupi: [
+    "Davanagere": [
+      "Davanagere City",
+      "Harihara",
+      "Honnali",
+      "Channagiri",
+      "Jagalur",
+      "Nyamathi"
+    ],
+    "Dharwad": [
+      "Hubballi Urban",
+      "Hubballi Rural",
+      "Dharwad",
+      "Navalgund",
+      "Kalghatgi",
+      "Kundgol",
+      "Alnavar",
+      "Annigeri"
+    ],
+    "Gadag": [
+      "Gadag-Betageri",
+      "Nargund",
+      "Ron",
+      "Shirahatti",
+      "Mundargi",
+      "Gajendragad",
+      "Lakshmeshwar"
+    ],
+    "Hassan": [
+      "Hassan",
+      "Alur",
+      "Arkalgud",
+      "Arsikere",
+      "Belur",
+      "Channarayapatna",
+      "Holenarasipura",
+      "Sakleshpur"
+    ],
+    "Haveri": [
+      "Haveri",
+      "Byadgi",
+      "Hangal",
+      "Hirekerur",
+      "Ranebennuru",
+      "Savanur",
+      "Shiggaon",
+      "Rattihalli"
+    ],
+    "Kalaburagi (Gulbarga)": [
+      "Kalaburagi City",
+      "Afzalpur",
+      "Aland",
+      "Chincholi",
+      "Chitapur",
+      "Jevargi",
+      "Sedam",
+      "Kamalapur",
+      "Yadrami",
+      "Shahabad",
+      "Kalgi"
+    ],
+    "Kodagu (Coorg)": [
+      "Madikeri",
+      "Somwarpet",
+      "Virajpet",
+      "Kushalnagar",
+      "Ponnampet"
+    ],
+    "Kolar": [
+      "Kolar",
+      "Bangarapet",
+      "Malur",
+      "Mulbagal",
+      "Srinivaspura",
+      "KGF (Robertsonpet)"
+    ],
+    "Koppal": [
+      "Koppal",
+      "Gangavathi",
+      "Kushtagi",
+      "Yelburga",
+      "Karatagi",
+      "Kukanoor",
+      "Kanakagiri"
+    ],
+    "Mandya": [
+      "Mandya",
+      "Maddur",
+      "Malavalli",
+      "Pandavapura",
+      "Nagamangala",
+      "Krishnarajpet (K.R. Pete)",
+      "Srirangapatna"
+    ],
+    "Mysuru": [
+      "Mysuru City",
+      "VV Mohalla",
+      "Jayalakshmipuram",
+      "Gokulam",
+      "Kuvempunagar",
+      "Hunsur",
+      "Nanjangud",
+      "T. Narasipura",
+      "K.R. Nagar",
+      "H.D. Kote",
+      "Periyapatna",
+      "Saragur",
+      "Saligrama"
+    ],
+    "Raichur": [
+      "Raichur",
+      "Devadurga",
+      "Lingsugur",
+      "Manvi",
+      "Sindhanur",
+      "Maski",
+      "Sirwar"
+    ],
+    "Ramanagara": [
+      "Ramanagara",
+      "Channapatna",
+      "Kanakapura",
+      "Magadi",
+      "Harohalli"
+    ],
+    "Shivamogga (Shimoga)": [
+      "Shivamogga City",
+      "Bhadravathi",
+      "Hosanagara",
+      "Sagara",
+      "Shikaripura",
+      "Soraba",
+      "Thirthahalli"
+    ],
+    "Tumakuru (Tumkur)": [
+      "Tumakuru City",
+      "Chikkanayakanahalli",
+      "Gubbi",
+      "Koratagere",
+      "Kunigal",
+      "Madhugiri",
+      "Pavagada",
+      "Sira",
+      "Tiptur",
+      "Turuvekere"
+    ],
+    "Udupi": [
       "Udupi",
       "Manipal",
       "Kundapura",
       "Karkala",
       "Kaup",
       "Brahmavara",
-      "Byndoor"
+      "Byndoor",
+      "Hebri"
     ],
-    Dharwad: [
-      "Hubballi Urban",
-      "Hubballi Rural",
-      "Dharwad",
-      "Navalgund",
-      "Kalghatgi",
-      "Kundgol"
+    "Uttara Kannada (Karwar)": [
+      "Karwar",
+      "Ankola",
+      "Kumta",
+      "Honnavar",
+      "Bhatkal",
+      "Sirsi",
+      "Siddapur",
+      "Yellapur",
+      "Dandeli",
+      "Haliyal",
+      "Joida",
+      "Mundgod"
     ],
-    Belagavi: [
-      "Belagavi City",
-      "Gokak",
-      "Chikkodi",
-      "Bailhongal",
-      "Athani",
-      "Saundatti",
-      "Khanapur"
+    "Vijayanagara": [
+      "Hosapete",
+      "Harapanahalli",
+      "Huvina Hadagali",
+      "Hagari Bommanahalli",
+      "Kotturu",
+      "Kudligi"
+    ],
+    "Vijayapura (Bijapur)": [
+      "Vijayapura City",
+      "Basavana Bagewadi",
+      "Indi",
+      "Muddebihal",
+      "Sindagi",
+      "Chadchan",
+      "Devar Hippargi",
+      "Kolhar",
+      "Nidagundi",
+      "Tikota",
+      "Babaleshwar",
+      "Talikoti"
+    ],
+    "Yadgir": [
+      "Yadgir",
+      "Shahapur",
+      "Surapur (Shorapur)",
+      "Gurmitkal",
+      "Hunasagi",
+      "Wadgera"
     ]
   },
   Maharashtra: {
@@ -210,13 +450,73 @@ export const INDIA_LOCATIONS = {
       "Kondapur",
       "Kukatpally",
       "Begumpet",
-      "Secunderabad"
+      "Secunderabad",
+      "Madhapur",
+      "Gachibowli"
     ],
-    "Rangareddy": [
+    Rangareddy: [
       "Rajendranagar",
       "Shamshabad",
       "Manikonda",
-      "Narsingi"
+      "Narsingi",
+      "Attapur",
+      "Gopanpally"
+    ],
+    "Medchal-Malkajgiri": [
+      "Malkajgiri",
+      "Kompally",
+      "Alwal",
+      "Kukatpally",
+      "Medchal"
+    ],
+    Warangal: [
+      "Warangal Urban",
+      "Hanamkonda",
+      "Kazipet"
+    ]
+  },
+  "Andhra Pradesh": {
+    Visakhapatnam: [
+      "Gajuwaka",
+      "Madhurawada",
+      "MVP Colony",
+      "Siripuram",
+      "Dwaraka Nagar",
+      "Seethammadhara",
+      "Bheemunipatnam"
+    ],
+    "NTR (Vijayawada)": [
+      "Benz Circle",
+      "Governorpet",
+      "Bhavanipuram",
+      "Gunadala",
+      "Patamata"
+    ],
+    Guntur: [
+      "Guntur City",
+      "Broadpet",
+      "Arundelpet",
+      "Nallapadu",
+      "Mangalagiri"
+    ],
+    Tirupati: [
+      "Tirupati City",
+      "Alipiri",
+      "Chandragiri",
+      "Renigunta",
+      "Sri Kalahasti"
+    ],
+    Kurnool: [
+      "Kurnool City",
+      "Nandyal Road",
+      "Adoni",
+      "Yemmiganur"
+    ],
+    Ananthapuramu: [
+      "Anantapur City",
+      "Hindupur",
+      "Guntakal",
+      "Dharmavaram"
     ]
   },
   Kerala: {
@@ -226,14 +526,30 @@ export const INDIA_LOCATIONS = {
       "Edappally",
       "Aluva",
       "Fort Kochi",
-      "Kadavanthra"
+      "Kadavanthra",
+      "Palarivattom",
+      "Vyttila"
     ],
     Thiruvananthapuram: [
       "Technopark (Kazhakkoottam)",
       "Vellayambalam",
       "Kowdiar",
       "Pattom",
-      "Thampanoor"
+      "Thampanoor",
+      "Sreekaryam"
+    ],
+    Kozhikode: [
+      "Kozhikode City",
+      "Mananchira",
+      "Mavoor Road",
+      "West Hill",
+      "Beypore"
+    ],
+    Thrissur: [
+      "Thrissur City",
+      "Round South",
+      "Ollur",
+      "Guruvayur"
     ]
   },
   Gujarat: {
@@ -244,14 +560,356 @@ export const INDIA_LOCATIONS = {
       "Vastrapur",
       "Prahlad Nagar",
       "Navrangpura",
-      "Maninagar"
+      "Maninagar",
+      "Bopal",
+      "Thaltej"
     ],
     Surat: [
       "Athwa",
       "Vesu",
       "Adajan",
       "Varachha",
-      "Piplod"
+      "Piplod",
+      "Pal"
+    ],
+    Vadodara: [
+      "Alkapuri",
+      "Gotri",
+      "Fatehgunj",
+      "Manjalpur",
+      "Vasna Road"
+    ],
+    Rajkot: [
+      "Kalawad Road",
+      "University Road",
+      "Yagnik Road",
+      "150 Feet Ring Road"
+    ],
+    Gandhinagar: [
+      "Sector 1-30",
+      "Infocity",
+      "Koba",
+      "Kudasan"
+    ]
+  },
+  Rajasthan: {
+    Jaipur: [
+      "Malviya Nagar",
+      "Vaishali Nagar",
+      "Mansarovar",
+      "C-Scheme",
+      "Jagatpura",
+      "Raja Park",
+      "Tonk Road"
+    ],
+    Jodhpur: [
+      "Shastri Nagar",
+      "Ratanada",
+      "Sardarpura",
+      "Pal Road"
+    ],
+    Udaipur: [
+      "Fatehpura",
+      "Hiran Magri",
+      "Panchwati",
+      "Sukher",
+      "Shobhagpura"
+    ],
+    Kota: [
+      "Vigyan Nagar",
+      "Talwandi",
+      "Mahaveer Nagar",
+      "Dadabari"
+    ]
+  },
+  "Uttar Pradesh": {
+    Lucknow: [
+      "Gomti Nagar",
+      "Hazratganj",
+      "Aliganj",
+      "Indira Nagar",
+      "Mahanagar",
+      "Alambagh",
+      "Vibhuti Khand"
+    ],
+    Kanpur: [
+      "Civil Lines",
+      "Swaroop Nagar",
+      "Kakadeo",
+      "Kidwai Nagar",
+      "Govind Nagar"
+    ],
+    Varanasi: [
+      "Sigra",
+      "Bhelupur",
+      "Lanka",
+      "Cantonment",
+      "Shivpur"
+    ],
+    Agra: [
+      "Tajganj",
+      "Sanjay Place",
+      "Dayal Bagh",
+      "Kamla Nagar"
+    ],
+    Prayagraj: [
+      "Civil Lines",
+      "Georgetown",
+      "Tagore Town",
+      "Katra"
+    ]
+  },
+  "West Bengal": {
+    Kolkata: [
+      "Salt Lake (Bidhannagar)",
+      "New Town (Rajarhat)",
+      "Park Street",
+      "Ballygunge",
+      "Alipore",
+      "Gariahat",
+      "Behala",
+      "Dum Dum"
+    ],
+    Howrah: [
+      "Howrah Station Area",
+      "Shibpur",
+      "Bally",
+      "Liluah"
+    ],
+    Darjeeling: [
+      "Darjeeling Town",
+      "Siliguri (Pradhan Nagar)",
+      "Siliguri (Sevoke Road)",
+      "Kurseong"
+    ]
+  },
+  "Madhya Pradesh": {
+    Indore: [
+      "Vijay Nagar",
+      "Palasia",
+      "AB Road",
+      "Bhawarkua",
+      "Saket",
+      "Super Corridor"
+    ],
+    Bhopal: [
+      "Arera Colony",
+      "MP Nagar",
+      "Kolar Road",
+      "Hoshangabad Road",
+      "Shahpura"
+    ],
+    Gwalior: [
+      "City Centre",
+      "Lashkar",
+      "Morar",
+      "Thatipur"
+    ],
+    Jabalpur: [
+      "Civil Lines",
+      "Wright Town",
+      "Napier Town",
+      "Vijay Nagar"
+    ]
+  },
+  Punjab: {
+    Ludhiana: [
+      "Model Town",
+      "Sarabha Nagar",
+      "Ferozepur Road",
+      "BRS Nagar",
+      "Civil Lines"
+    ],
+    Amritsar: [
+      "Ranjit Avenue",
+      "Mall Road",
+      "Green Avenue",
+      "Lawrence Road"
+    ],
+    "SAS Nagar (Mohali)": [
+      "Phase 1-11",
+      "Sector 68-71",
+      "Sector 82 (Aerocity)",
+      "Kharar"
+    ],
+    Jalandhar: [
+      "Model Town",
+      "Civil Lines",
+      "Urban Estate Phase 1-2",
+      "Cantt Road"
+    ]
+  },
+  Haryana: {
+    Gurugram: [
+      "DLF Phase 1-5",
+      "Golf Course Road",
+      "Sohna Road",
+      "Sector 56-57",
+      "Cyber City",
+      "Palam Vihar",
+      "South City"
+    ],
+    Faridabad: [
+      "Sector 14-16",
+      "Greenfield",
+      "Neharpar (Greater Faridabad)",
+      "NIT 1-5"
+    ],
+    Panchkula: [
+      "Sector 1-21",
+      "MDC Sector 4-6",
+      "Pinjore"
+    ]
+  },
+  Bihar: {
+    Patna: [
+      "Boring Road",
+      "Kankarbagh",
+      "Bailey Road",
+      "Rajendra Nagar",
+      "Patliputra Colony",
+      "Ashiana Nagar"
+    ],
+    Gaya: [
+      "Civil Lines",
+      "AP Colony",
+      "Rampur",
+      "Bodh Gaya"
+    ],
+    Muzaffarpur: [
+      "Mithanpura",
+      "Kalyani",
+      "Brahmpura",
+      "Ahiyapur"
+    ]
+  },
+  Odisha: {
+    Khordha: [
+      "Bhubaneswar (Saheed Nagar)",
+      "Bhubaneswar (Patia)",
+      "Bhubaneswar (Jayadev Vihar)",
+      "Bhubaneswar (Nayapalli)",
+      "Bhubaneswar (Khandagiri)"
+    ],
+    Cuttack: [
+      "CDA Sector 1-11",
+      "Badambadi",
+      "Link Road",
+      "Buxi Bazaar"
+    ]
+  },
+  Jharkhand: {
+    Ranchi: [
+      "Lalpur",
+      "Doranda",
+      "Harmu Housing Colony",
+      "Morabadi",
+      "Ashok Nagar",
+      "Kanke Road"
+    ],
+    "East Singhbhum": [
+      "Jamshedpur (Bistupur)",
+      "Jamshedpur (Sakchi)",
+      "Jamshedpur (Kadma)",
+      "Jamshedpur (Sonari)",
+      "Telco Colony"
+    ],
+    Dhanbad: [
+      "Bank More",
+      "Saraidhela",
+      "Hirapur",
+      "Steel Gate"
+    ]
+  },
+  Assam: {
+    "Kamrup Metropolitan": [
+      "Guwahati (GS Road)",
+      "Guwahati (Dispur)",
+      "Guwahati (Zoo Road)",
+      "Guwahati (Ulubari)",
+      "Guwahati (Beltola)",
+      "Guwahati (Jalukbari)"
+    ],
+    Dibrugarh: [
+      "Chowkidinghee",
+      "Amolapatty",
+      "Thana Chariali"
+    ]
+  },
+  Uttarakhand: {
+    Dehradun: [
+      "Rajpur Road",
+      "Jakhan",
+      "Dalanwala",
+      "Vasant Vihar",
+      "Sahastradhara Road",
+      "Clement Town"
+    ],
+    Haridwar: [
+      "Ranipur More",
+      "Jwalapur",
+      "Kankhal",
+      "Shivalik Nagar"
+    ],
+    Nainital: [
+      "Haldwani (Kaladhungi Road)",
+      "Haldwani (Nainital Road)",
+      "Kathgodam",
+      "Mallital"
+    ]
+  },
+  "Himachal Pradesh": {
+    Shimla: [
+      "Mall Road",
+      "Sanjauli",
+      "Chotta Shimla",
+      "Kasumpti",
+      "New Shimla"
+    ],
+    Kangra: [
+      "Dharamshala",
+      "McLeodGanj",
+      "Palampur",
+      "Kangra Town"
+    ],
+    Kullu: [
+      "Manali Town",
+      "Old Manali",
+      "Kullu Town"
+    ]
+  },
+  Chandigarh: {
+    Chandigarh: [
+      "Sector 1-10 (North Chandigarh)",
+      "Sector 15-22 (Central)",
+      "Sector 35-38 (South)",
+      "Sector 43-46",
+      "Manimajra / IT Park"
+    ]
+  },
+  Puducherry: {
+    Puducherry: [
+      "White Town (French Quarter)",
+      "Heritage Town",
+      "Lawspet",
+      "Auroville Area",
+      "Muthialpet"
+    ]
+  },
+  "Jammu and Kashmir": {
+    Srinagar: [
+      "Rajbagh",
+      "Lal Chowk",
+      "Hyderpora",
+      "Sanat Nagar",
+      "Bemina"
+    ],
+    Jammu: [
+      "Gandhi Nagar",
+      "Channi Himmat",
+      "Trikuta Nagar",
+      "Bahu Plaza",
+      "Janipur"
     ]
   }
 };
@@ -281,6 +939,38 @@ export const KNOWN_PINCODES = {
   "570002": { state: "Karnataka", district: "Mysuru", taluk: "VV Mohalla (Mysuru City)", city: "Mysuru" },
   "570012": { state: "Karnataka", district: "Mysuru", taluk: "Jayalakshmipuram", city: "Mysuru" },
   "570023": { state: "Karnataka", district: "Mysuru", taluk: "Kuvempunagar", city: "Mysuru" },
+
+  // All Karnataka Districts
+  "575001": { state: "Karnataka", district: "Dakshina Kannada", taluk: "Mangaluru City", city: "Mangaluru" },
+  "576101": { state: "Karnataka", district: "Udupi", taluk: "Udupi", city: "Udupi" },
+  "576104": { state: "Karnataka", district: "Udupi", taluk: "Manipal", city: "Manipal" },
+  "580001": { state: "Karnataka", district: "Dharwad", taluk: "Dharwad", city: "Dharwad" },
+  "580020": { state: "Karnataka", district: "Dharwad", taluk: "Hubballi Urban", city: "Hubballi" },
+  "590001": { state: "Karnataka", district: "Belagavi", taluk: "Belagavi City", city: "Belagavi" },
+  "583101": { state: "Karnataka", district: "Ballari", taluk: "Ballari City", city: "Ballari" },
+  "585101": { state: "Karnataka", district: "Kalaburagi (Gulbarga)", taluk: "Kalaburagi City", city: "Kalaburagi" },
+  "577001": { state: "Karnataka", district: "Davanagere", taluk: "Davanagere City", city: "Davanagere" },
+  "577201": { state: "Karnataka", district: "Shivamogga (Shimoga)", taluk: "Shivamogga City", city: "Shivamogga" },
+  "572101": { state: "Karnataka", district: "Tumakuru (Tumkur)", taluk: "Tumakuru City", city: "Tumakuru" },
+  "586101": { state: "Karnataka", district: "Vijayapura (Bijapur)", taluk: "Vijayapura City", city: "Vijayapura" },
+  "587101": { state: "Karnataka", district: "Bagalkote", taluk: "Bagalkote", city: "Bagalkote" },
+  "573201": { state: "Karnataka", district: "Hassan", taluk: "Hassan", city: "Hassan" },
+  "584101": { state: "Karnataka", district: "Raichur", taluk: "Raichur", city: "Raichur" },
+  "583201": { state: "Karnataka", district: "Vijayanagara", taluk: "Hosapete", city: "Hosapete" },
+  "571201": { state: "Karnataka", district: "Kodagu (Coorg)", taluk: "Madikeri", city: "Madikeri" },
+  "581301": { state: "Karnataka", district: "Uttara Kannada (Karwar)", taluk: "Karwar", city: "Karwar" },
+  "571401": { state: "Karnataka", district: "Mandya", taluk: "Mandya", city: "Mandya" },
+  "563101": { state: "Karnataka", district: "Kolar", taluk: "Kolar", city: "Kolar" },
+  "562159": { state: "Karnataka", district: "Ramanagara", taluk: "Ramanagara", city: "Ramanagara" },
+  "561207": { state: "Karnataka", district: "Chikkaballapura", taluk: "Chikkaballapura", city: "Chikkaballapura" },
+  "577101": { state: "Karnataka", district: "Chikkamagaluru", taluk: "Chikkamagaluru", city: "Chikkamagaluru" },
+  "577501": { state: "Karnataka", district: "Chitradurga", taluk: "Chitradurga", city: "Chitradurga" },
+  "582101": { state: "Karnataka", district: "Gadag", taluk: "Gadag-Betageri", city: "Gadag" },
+  "581110": { state: "Karnataka", district: "Haveri", taluk: "Haveri", city: "Haveri" },
+  "583227": { state: "Karnataka", district: "Koppal", taluk: "Koppal", city: "Koppal" },
+  "585202": { state: "Karnataka", district: "Yadgir", taluk: "Yadgir", city: "Yadgir" },
+  "585401": { state: "Karnataka", district: "Bidar", taluk: "Bidar", city: "Bidar" },
+  "571313": { state: "Karnataka", district: "Chamarajanagar", taluk: "Chamarajanagar", city: "Chamarajanagar" },
 
   // Mumbai
   "400050": { state: "Maharashtra", district: "Mumbai Suburban", taluk: "Bandra West", city: "Mumbai" },
