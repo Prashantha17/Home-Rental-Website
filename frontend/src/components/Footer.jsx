@@ -83,6 +83,16 @@ const Footer = () => {
               </a>
             </li>
             <li>
+              <a
+                href="https://github.com/Prashantha17/Home-Rental-Website/releases/latest/download/NammaMane.apk"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#fe6c6b] hover:text-white transition-colors font-semibold flex items-center gap-1.5"
+              >
+                <span>📥 Download Android App (.apk)</span>
+              </a>
+            </li>
+            <li>
               <a href="#" className="text-[#c1c7cf] hover:text-white transition-colors">
                 Privacy Policy & Terms
               </a>

@@ -38,6 +38,15 @@ const InstallAppBanner = () => {
             <p className="text-xs text-gray-300 line-clamp-1">
               Install app for faster browsing & instant alerts
             </p>
+            <a
+              href="https://github.com/Prashantha17/Home-Rental-Website/releases/latest/download/NammaMane.apk"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[10px] text-blue-200 hover:text-white underline flex items-center gap-1 mt-0.5"
+            >
+              <span>Download Android APK</span>
+              <span className="material-symbols-outlined text-[11px]">open_in_new</span>
+            </a>
           </div>
         </div>
 

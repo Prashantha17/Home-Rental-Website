@@ -1,0 +1,9 @@
+{
+  "appId": "com.nammamane.app",
+  "appName": "Namma Mane",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https",
+    "cleartext": true
+  }
+}
