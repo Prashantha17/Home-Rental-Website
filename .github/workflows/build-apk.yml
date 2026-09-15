@@ -43,7 +43,9 @@ jobs:
 
       - name: Copy Web Assets to Android
         working-directory: frontend
-        run: npx cap copy android
+        run: |
+          mkdir -p android/app/src/main/assets
+          npx cap copy android
 
       - name: Make Gradle Executable
         working-directory: frontend/android
@@ -71,6 +73,7 @@ jobs:
         with:
           tag_name: v1.0-android
           name: Namma Mane Android App (Latest Release)
+          make_latest: true
           body: |
             ## 🏠 Namma Mane Mobile App for Android
             
