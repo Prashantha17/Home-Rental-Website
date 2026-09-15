@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import ChatWidget from "./components/ChatWidget";
 import ImageSecurityGuard from "./components/ImageSecurityGuard";
+import InstallAppBanner from "./components/InstallAppBanner";
 
 // Code-split secondary pages for instant initial homepage load & scalability
 const Login = lazy(() => import("./pages/Login"));
@@ -115,6 +116,9 @@ const App = () => {
 
           {/* Anti-Download & Security Protection Guard */}
           <ImageSecurityGuard />
+
+          {/* PWA App Installation Floating Banner */}
+          <InstallAppBanner />
         </div>
       </ToastProvider>
     </AuthProvider>

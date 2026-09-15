@@ -3,8 +3,13 @@
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#0a0f1e" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover" />
+    <meta name="theme-color" content="#002045" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Namma Mane" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="Namma Mane" />
     <meta
       name="description"
       content="Namma Mane 🏠 - Find your home which matches your vibe. Zero broker commission, transparent pricing, and direct owner communication."
@@ -76,5 +81,19 @@
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <script type="module" src="/src/index.jsx"></script>
+    <script>
+      if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').then(
+            (registration) => {
+              console.log('✅ Namma Mane PWA ServiceWorker registered with scope:', registration.scope);
+            },
+            (err) => {
+              console.log('ServiceWorker registration notice:', err);
+            }
+          );
+        });
+      }
+    </script>
   </body>
 </html>

@@ -3,12 +3,14 @@ import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useToast } from "../context/ToastContext";
+import { usePwaInstall } from "../utils/usePwaInstall";
 
 const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { isAuthenticated, username, role, logout } = useAuth();
   const toast = useToast();
+  const { isStandalone, promptInstall } = usePwaInstall();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -147,6 +149,19 @@ const Navbar = () => {
               </Link>
             </>
           )}
+
+          {/* Install App Button */}
+          {!isStandalone && (
+            <button
+              type="button"
+              onClick={promptInstall}
+              className="flex items-center gap-1.5 text-xs font-bold text-[#002045] bg-[#002045]/5 hover:bg-[#002045]/10 border border-[#002045]/20 px-3.5 py-2 rounded-lg transition-all shadow-xs"
+              title="Install Namma Mane App on your device"
+            >
+              <span className="material-symbols-outlined text-base">download_for_offline</span>
+              <span>Install App</span>
+            </button>
+          )}
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -165,6 +180,20 @@ const Navbar = () => {
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-white border-b border-[#c4c6cf]/30 px-6 py-4 space-y-3 shadow-lg animate-fadeIn">
+          {/* Mobile Install App Button */}
+          {!isStandalone && (
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                promptInstall();
+              }}
+              className="w-full flex items-center justify-center gap-2 bg-[#002045] text-white font-bold py-3 px-4 rounded-xl text-xs shadow-md mb-2"
+            >
+              <span className="material-symbols-outlined text-base">download_for_offline</span>
+              <span>📲 Install Namma Mane App</span>
+            </button>
+          )}
           <Link
             to="/"
             onClick={() => setMobileMenuOpen(false)}
