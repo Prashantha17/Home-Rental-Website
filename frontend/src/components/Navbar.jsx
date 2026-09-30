@@ -179,7 +179,8 @@ const Navbar = () => {
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-b border-[#c4c6cf]/30 px-6 py-4 space-y-3 shadow-lg animate-fadeIn">
+        <div className="md:hidden bg-white border-b border-[#c4c6cf]/30 px-6 py-4 shadow-lg animate-fadeIn max-h-[80vh] overflow-y-auto">
+          <div className="space-y-1">
           {/* Mobile Install App Button */}
           {!isStandalone && (
             <button
@@ -273,6 +274,7 @@ const Navbar = () => {
               </>
             )}
           </div>
+        </div> {/* end space-y-1 */}
         </div>
       )}
     </header>

@@ -250,76 +250,119 @@ const OwnerDashboard = () => {
                   </button>
                 </div>
               ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left text-xs border-collapse">
-                    <thead>
-                      <tr className="border-b border-gray-200 text-[#43474e] uppercase tracking-wider font-bold">
-                        <th className="py-3 px-4">Property</th>
-                        <th className="py-3 px-4">Location</th>
-                        <th className="py-3 px-4">Type & Rooms</th>
-                        <th className="py-3 px-4">Monthly Rent</th>
-                        <th className="py-3 px-4">Deposit</th>
-                        <th className="py-3 px-4">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100">
-                      {properties.map((p) => (
-                        <tr key={p.id || p._id} className="hover:bg-gray-50/80 transition-colors">
-                          <td className="py-3.5 px-4">
-                            <div className="flex items-center gap-3">
-                              <img
-                                src={
-                                  p.imgUrl ||
-                                  "https://images.pexels.com/photos/271639/pexels-photo-271639.jpeg?auto=compress&dpr=2&w=100"
-                                }
-                                alt={p.title}
-                                className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
-                              />
-                              <div>
-                                <strong className="font-bold text-[#002045] block text-sm">
-                                  {p.title}
-                                </strong>
-                                <span className="text-[11px] text-gray-400">
-                                  ID: {String(p.id || p._id).substring(0, 8)}...
-                                </span>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="py-3.5 px-4 text-[#43474e]">
-                            📍 {p.city}, {p.area}
-                          </td>
-                          <td className="py-3.5 px-4">
-                            <span className="px-2 py-1 bg-gray-100 rounded text-[#002045] font-semibold">
-                              {p.houseType} • {p.rooms} Rooms
-                            </span>
-                          </td>
-                          <td className="py-3.5 px-4">
-                            <strong className="text-[#002045] text-sm">
-                              ₹{Number(p.rent || 0).toLocaleString()}
-                            </strong>
-                            <span className="text-gray-400"> /mo</span>
-                          </td>
-                          <td className="py-3.5 px-4 text-[#43474e]">
-                            ₹{Number(p.deposit || 0).toLocaleString()}
-                          </td>
-                          <td className="py-3.5 px-4">
-                            <span
-                              className={`px-2.5 py-1 rounded-full text-[11px] font-bold ${
-                                p.status === "Approved"
-                                  ? "bg-emerald-100 text-emerald-700"
-                                  : p.status === "Rejected"
-                                  ? "bg-red-100 text-red-700"
-                                  : "bg-amber-100 text-amber-700"
-                              }`}
-                            >
-                              {p.status || "Approved"}
-                            </span>
-                          </td>
+                <>
+                  {/* Desktop table (hidden on mobile) */}
+                  <div className="hidden md:block overflow-x-auto">
+                    <table className="w-full text-left text-xs border-collapse">
+                      <thead>
+                        <tr className="border-b border-gray-200 text-[#43474e] uppercase tracking-wider font-bold">
+                          <th className="py-3 px-4">Property</th>
+                          <th className="py-3 px-4">Location</th>
+                          <th className="py-3 px-4">Type & Rooms</th>
+                          <th className="py-3 px-4">Monthly Rent</th>
+                          <th className="py-3 px-4">Deposit</th>
+                          <th className="py-3 px-4">Status</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody className="divide-y divide-gray-100">
+                        {properties.map((p) => (
+                          <tr key={p.id || p._id} className="hover:bg-gray-50/80 transition-colors">
+                            <td className="py-3.5 px-4">
+                              <div className="flex items-center gap-3">
+                                <img
+                                  src={
+                                    p.imgUrl ||
+                                    "https://images.pexels.com/photos/271639/pexels-photo-271639.jpeg?auto=compress&dpr=2&w=100"
+                                  }
+                                  alt={p.title}
+                                  className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
+                                />
+                                <div>
+                                  <strong className="font-bold text-[#002045] block text-sm">
+                                    {p.title}
+                                  </strong>
+                                  <span className="text-[11px] text-gray-400">
+                                    ID: {String(p.id || p._id).substring(0, 8)}...
+                                  </span>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="py-3.5 px-4 text-[#43474e]">
+                              📍 {p.city}, {p.area}
+                            </td>
+                            <td className="py-3.5 px-4">
+                              <span className="px-2 py-1 bg-gray-100 rounded text-[#002045] font-semibold">
+                                {p.houseType} • {p.rooms} Rooms
+                              </span>
+                            </td>
+                            <td className="py-3.5 px-4">
+                              <strong className="text-[#002045] text-sm">
+                                ₹{Number(p.rent || 0).toLocaleString()}
+                              </strong>
+                              <span className="text-gray-400"> /mo</span>
+                            </td>
+                            <td className="py-3.5 px-4 text-[#43474e]">
+                              ₹{Number(p.deposit || 0).toLocaleString()}
+                            </td>
+                            <td className="py-3.5 px-4">
+                              <span
+                                className={`px-2.5 py-1 rounded-full text-[11px] font-bold ${
+                                  p.status === "Approved"
+                                    ? "bg-emerald-100 text-emerald-700"
+                                    : p.status === "Rejected"
+                                    ? "bg-red-100 text-red-700"
+                                    : "bg-amber-100 text-amber-700"
+                                }`}
+                              >
+                                {p.status || "Approved"}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  {/* Mobile card list (hidden on md+) */}
+                  <div className="md:hidden space-y-3">
+                    {properties.map((p) => (
+                      <div key={p.id || p._id} className="border border-gray-100 rounded-xl p-4 bg-[#f9f9ff]">
+                        <div className="flex items-center gap-3 mb-3">
+                          <img
+                            src={p.imgUrl || "https://images.pexels.com/photos/271639/pexels-photo-271639.jpeg?auto=compress&dpr=2&w=100"}
+                            alt={p.title}
+                            className="w-14 h-14 rounded-lg object-cover flex-shrink-0"
+                          />
+                          <div className="min-w-0">
+                            <strong className="font-bold text-[#002045] block text-sm truncate">{p.title}</strong>
+                            <span className="text-xs text-[#74777f]">📍 {p.city}, {p.area}</span>
+                          </div>
+                          <span className={`ml-auto flex-shrink-0 px-2.5 py-1 rounded-full text-[11px] font-bold ${
+                            p.status === "Approved" ? "bg-emerald-100 text-emerald-700"
+                            : p.status === "Rejected" ? "bg-red-100 text-red-700"
+                            : "bg-amber-100 text-amber-700"
+                          }`}>
+                            {p.status || "Approved"}
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2 text-xs">
+                          <div className="bg-white rounded-lg p-2 border border-gray-100">
+                            <span className="text-[#74777f] block">Type</span>
+                            <span className="font-semibold text-[#002045]">{p.houseType} · {p.rooms} Rooms</span>
+                          </div>
+                          <div className="bg-white rounded-lg p-2 border border-gray-100">
+                            <span className="text-[#74777f] block">Monthly Rent</span>
+                            <span className="font-bold text-[#002045]">₹{Number(p.rent || 0).toLocaleString()}</span>
+                          </div>
+                          <div className="bg-white rounded-lg p-2 border border-gray-100 col-span-2">
+                            <span className="text-[#74777f] block">Security Deposit</span>
+                            <span className="font-semibold text-[#002045]">₹{Number(p.deposit || 0).toLocaleString()}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </>
               )}
             </div>
 
@@ -342,118 +385,174 @@ const OwnerDashboard = () => {
                   </p>
                 </div>
               ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left text-xs border-collapse">
-                    <thead>
-                      <tr className="border-b border-gray-200 text-[#43474e] uppercase tracking-wider font-bold">
-                        <th className="py-3 px-4">Tenant Profile</th>
-                        <th className="py-3 px-4">Requested Property</th>
-                        <th className="py-3 px-4">Rent Offer & Note</th>
-                        <th className="py-3 px-4">Contact Phone</th>
-                        <th className="py-3 px-4">Request Date</th>
-                        <th className="py-3 px-4">Status</th>
-                        <th className="py-3 px-4">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100">
-                      {requests.map((r) => {
-                        const isNegotiated = r.is_negotiated || (r.offered_rent && r.listed_rent && r.offered_rent !== r.listed_rent);
-                        const offerRentVal = r.offered_rent || r.rent || r.listed_rent || 0;
-                        const listRentVal = r.listed_rent || r.rent || 0;
-
-                        return (
-                          <tr key={r.id || r._id} className="hover:bg-gray-50/80 transition-colors">
-                            <td className="py-3.5 px-4">
-                              <div className="flex items-center gap-2.5">
-                                <div className="w-8 h-8 rounded-full bg-[#002045] text-white flex items-center justify-center font-bold">
-                                  {r.tenant_name ? r.tenant_name[0].toUpperCase() : "T"}
+                <>
+                  {/* Desktop table (hidden on mobile) */}
+                  <div className="hidden md:block overflow-x-auto">
+                    <table className="w-full text-left text-xs border-collapse">
+                      <thead>
+                        <tr className="border-b border-gray-200 text-[#43474e] uppercase tracking-wider font-bold">
+                          <th className="py-3 px-4">Tenant Profile</th>
+                          <th className="py-3 px-4">Requested Property</th>
+                          <th className="py-3 px-4">Rent Offer & Note</th>
+                          <th className="py-3 px-4">Contact Phone</th>
+                          <th className="py-3 px-4">Request Date</th>
+                          <th className="py-3 px-4">Status</th>
+                          <th className="py-3 px-4">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-100">
+                        {requests.map((r) => {
+                          const isNegotiated = r.is_negotiated || (r.offered_rent && r.listed_rent && r.offered_rent !== r.listed_rent);
+                          const offerRentVal = r.offered_rent || r.rent || r.listed_rent || 0;
+                          const listRentVal = r.listed_rent || r.rent || 0;
+                          return (
+                            <tr key={r.id || r._id} className="hover:bg-gray-50/80 transition-colors">
+                              <td className="py-3.5 px-4">
+                                <div className="flex items-center gap-2.5">
+                                  <div className="w-8 h-8 rounded-full bg-[#002045] text-white flex items-center justify-center font-bold">
+                                    {r.tenant_name ? r.tenant_name[0].toUpperCase() : "T"}
+                                  </div>
+                                  <div>
+                                    <strong className="text-[#002045] block">{r.tenant_name}</strong>
+                                    <span className="text-[10px] text-gray-400">{r.tenant_email || "Verified Tenant"}</span>
+                                  </div>
                                 </div>
-                                <div>
-                                  <strong className="text-[#002045] block">{r.tenant_name}</strong>
-                                  <span className="text-[10px] text-gray-400">
-                                    {r.tenant_email || "Verified Tenant"}
-                                  </span>
+                              </td>
+                              <td className="py-3.5 px-4 font-semibold text-[#002045]">{r.property_title}</td>
+                              <td className="py-3.5 px-4">
+                                <div className="flex items-center gap-1.5">
+                                  <strong className="text-sm font-bold text-[#002045]">₹{Number(offerRentVal).toLocaleString()}</strong>
+                                  <span className="text-gray-400">/mo</span>
+                                  {isNegotiated && (
+                                    <span className="px-1.5 py-0.5 bg-amber-100 text-amber-800 rounded font-bold text-[10px]">
+                                      💡 Offer (Listed: ₹{Number(listRentVal).toLocaleString()})
+                                    </span>
+                                  )}
                                 </div>
-                              </div>
-                            </td>
-                            <td className="py-3.5 px-4 font-semibold text-[#002045]">
-                              {r.property_title}
-                            </td>
-                            <td className="py-3.5 px-4">
-                              <div className="flex items-center gap-1.5">
-                                <strong className="text-sm font-bold text-[#002045]">
-                                  ₹{Number(offerRentVal).toLocaleString()}
-                                </strong>
-                                <span className="text-gray-400">/mo</span>
-                                {isNegotiated && (
-                                  <span className="px-1.5 py-0.5 bg-amber-100 text-amber-800 rounded font-bold text-[10px]">
-                                    💡 Offer (Listed: ₹{Number(listRentVal).toLocaleString()})
+                                {r.message && (
+                                  <div className="mt-1 p-2 bg-blue-50 border border-blue-200 rounded-lg text-[11px] text-blue-900 italic max-w-xs">
+                                    "{r.message}"
+                                  </div>
+                                )}
+                              </td>
+                              <td className="py-3.5 px-4 text-[#43474e]">📞 {r.tenant_phone || "N/A"}</td>
+                              <td className="py-3.5 px-4 text-[#74777f]">📅 {r.date}</td>
+                              <td className="py-3.5 px-4">
+                                <span className={`px-2.5 py-1 rounded-full text-[11px] font-bold ${
+                                  r.status === "Paid" ? "bg-emerald-100 text-emerald-700"
+                                  : r.status === "Accepted" ? "bg-blue-100 text-blue-700"
+                                  : r.status === "Rejected" ? "bg-red-100 text-red-700"
+                                  : "bg-amber-100 text-amber-700"
+                                }`}>
+                                  {r.status === "Paid" ? "💳 Paid & Confirmed"
+                                    : r.status === "Accepted" ? "Approved (Awaiting Pay)"
+                                    : r.status === "Rejected" ? "Declined"
+                                    : "⌛ Pending Review"}
+                                </span>
+                              </td>
+                              <td className="py-3.5 px-4">
+                                {r.status === "Pending" ? (
+                                  <div className="flex items-center gap-2">
+                                    <button type="button" disabled={processingId === (r.id || r._id)} onClick={() => handleAcceptRequest(r.id || r._id)}
+                                      className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold text-xs cursor-pointer disabled:opacity-50 flex items-center gap-1 shadow-sm">
+                                      ✔ Accept
+                                    </button>
+                                    <button type="button" disabled={processingId === (r.id || r._id)} onClick={() => handleRejectRequest(r.id || r._id)}
+                                      className="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg font-bold text-xs cursor-pointer disabled:opacity-50 shadow-sm">
+                                      ✖ Decline
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <span className="text-gray-400 font-semibold text-xs">
+                                    {r.status === "Paid" ? "🎉 Completed" : "Resolved"}
                                   </span>
                                 )}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  {/* Mobile card list (hidden on md+) */}
+                  <div className="md:hidden space-y-4">
+                    {requests.map((r) => {
+                      const isNegotiated = r.is_negotiated || (r.offered_rent && r.listed_rent && r.offered_rent !== r.listed_rent);
+                      const offerRentVal = r.offered_rent || r.rent || r.listed_rent || 0;
+                      const listRentVal = r.listed_rent || r.rent || 0;
+                      return (
+                        <div key={r.id || r._id} className="border border-gray-100 rounded-2xl p-4 bg-[#f9f9ff] space-y-3">
+                          {/* Tenant + Status header */}
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-[#002045] text-white flex items-center justify-center font-bold text-sm flex-shrink-0">
+                              {r.tenant_name ? r.tenant_name[0].toUpperCase() : "T"}
+                            </div>
+                            <div className="min-w-0">
+                              <strong className="text-[#002045] block text-sm truncate">{r.tenant_name}</strong>
+                              <span className="text-[11px] text-gray-400">{r.tenant_email || "Verified Tenant"}</span>
+                            </div>
+                            <span className={`ml-auto flex-shrink-0 px-2.5 py-1 rounded-full text-[11px] font-bold ${
+                              r.status === "Paid" ? "bg-emerald-100 text-emerald-700"
+                              : r.status === "Accepted" ? "bg-blue-100 text-blue-700"
+                              : r.status === "Rejected" ? "bg-red-100 text-red-700"
+                              : "bg-amber-100 text-amber-700"
+                            }`}>
+                              {r.status === "Paid" ? "💳 Paid"
+                                : r.status === "Accepted" ? "✓ Accepted"
+                                : r.status === "Rejected" ? "Declined"
+                                : "⌛ Pending"}
+                            </span>
+                          </div>
+
+                          {/* Property + Rent */}
+                          <div className="grid grid-cols-2 gap-2 text-xs">
+                            <div className="bg-white rounded-lg p-2.5 border border-gray-100 col-span-2">
+                              <span className="text-[#74777f] block">Property</span>
+                              <span className="font-semibold text-[#002045]">{r.property_title}</span>
+                            </div>
+                            <div className="bg-white rounded-lg p-2.5 border border-gray-100">
+                              <span className="text-[#74777f] block">Rent Offered</span>
+                              <span className="font-bold text-[#002045]">₹{Number(offerRentVal).toLocaleString()}/mo</span>
+                              {isNegotiated && <span className="text-amber-700 text-[10px] font-bold block">Listed: ₹{Number(listRentVal).toLocaleString()}</span>}
+                            </div>
+                            <div className="bg-white rounded-lg p-2.5 border border-gray-100">
+                              <span className="text-[#74777f] block">Contact</span>
+                              <span className="font-semibold text-[#002045]">{r.tenant_phone || "N/A"}</span>
+                            </div>
+                            {r.date && (
+                              <div className="bg-white rounded-lg p-2.5 border border-gray-100 col-span-2">
+                                <span className="text-[#74777f] block">Request Date</span>
+                                <span className="font-semibold text-[#002045]">{r.date}</span>
                               </div>
-                              {r.message && (
-                                <div className="mt-1 p-2 bg-blue-50 border border-blue-200 rounded-lg text-[11px] text-blue-900 italic max-w-xs">
-                                  "{r.message}"
-                                </div>
-                              )}
-                            </td>
-                            <td className="py-3.5 px-4 text-[#43474e]">📞 {r.tenant_phone || "N/A"}</td>
+                            )}
+                          </div>
 
-                            <td className="py-3.5 px-4 text-[#74777f]">📅 {r.date}</td>
-                            <td className="py-3.5 px-4">
-                              <span
-                                className={`px-2.5 py-1 rounded-full text-[11px] font-bold ${
-                                  r.status === "Paid"
-                                    ? "bg-emerald-100 text-emerald-700"
-                                    : r.status === "Accepted"
-                                    ? "bg-blue-100 text-blue-700"
-                                    : r.status === "Rejected"
-                                    ? "bg-red-100 text-red-700"
-                                    : "bg-amber-100 text-amber-700"
-                                }`}
-                              >
-                                {r.status === "Paid"
-                                  ? "💳 Paid & Confirmed"
-                                  : r.status === "Accepted"
-                                  ? "Approved (Awaiting Pay)"
-                                  : r.status === "Rejected"
-                                  ? "Declined"
-                                  : "⌛ Pending Review"}
-                              </span>
-                            </td>
-                            <td className="py-3.5 px-4">
-                              {r.status === "Pending" ? (
-                                <div className="flex items-center gap-2">
-                                  <button
-                                    type="button"
-                                    disabled={processingId === (r.id || r._id)}
-                                    onClick={() => handleAcceptRequest(r.id || r._id)}
-                                    className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold text-xs cursor-pointer disabled:opacity-50 flex items-center gap-1 shadow-sm"
-                                  >
-                                    ✔ Accept Offer
-                                  </button>
-                                  <button
-                                    type="button"
-                                    disabled={processingId === (r.id || r._id)}
-                                    onClick={() => handleRejectRequest(r.id || r._id)}
-                                    className="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg font-bold text-xs cursor-pointer disabled:opacity-50 shadow-sm"
-                                  >
-                                    ✖ Decline
-                                  </button>
-                                </div>
-                              ) : (
-                                <span className="text-gray-400 font-semibold text-xs">
-                                  {r.status === "Paid" ? "🎉 Completed" : "Resolved"}
-                                </span>
-                              )}
-                            </td>
+                          {/* Message */}
+                          {r.message && (
+                            <div className="p-2.5 bg-blue-50 border border-blue-200 rounded-lg text-xs text-blue-900 italic">
+                              "{r.message}"
+                            </div>
+                          )}
 
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
+                          {/* Action buttons */}
+                          {r.status === "Pending" && (
+                            <div className="flex gap-2 pt-1">
+                              <button type="button" disabled={processingId === (r.id || r._id)} onClick={() => handleAcceptRequest(r.id || r._id)}
+                                className="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-xs cursor-pointer disabled:opacity-50 flex items-center justify-center gap-1.5 shadow-sm">
+                                ✔ Accept Offer
+                              </button>
+                              <button type="button" disabled={processingId === (r.id || r._id)} onClick={() => handleRejectRequest(r.id || r._id)}
+                                className="flex-1 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold text-xs cursor-pointer disabled:opacity-50 shadow-sm">
+                                ✖ Decline
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </>
               )}
             </div>
           </>
