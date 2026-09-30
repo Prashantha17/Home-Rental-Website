@@ -663,7 +663,7 @@ const Home = () => {
   return (
     <div className="bg-[#f9f9ff] text-[#111c2c] font-sans min-h-screen flex flex-col pt-20">
       {/* ─── STITCH HERO SECTION (Full-Bleed Luxury Background) ─── */}
-      <section className="relative w-full h-[780px] min-h-[640px] flex items-center justify-center">
+      <section className="relative w-full min-h-[600px] md:h-[780px] flex items-center justify-center py-16 md:py-0">
         {/* Background Image from Stitch Coastal Modernist Screen */}
         <div
           className="absolute inset-0 w-full h-full bg-cover bg-center"
@@ -1549,8 +1549,9 @@ const Home = () => {
                   </p>
                 </div>
 
-                {/* Room Selector Tabs */}
-                <div className="flex flex-wrap gap-2" id="spatialTabs">
+                {/* Room Selector Tabs — scrollable on mobile */}
+                <div className="flex overflow-x-auto gap-2 pb-1 -mb-1 scrollbar-none md:flex-wrap" id="spatialTabs"
+                  style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
                   {Object.values(SPATIAL_ROOMS).map((room) => {
                     const isActive = activeRoomKey === room.key;
                     return (
@@ -1558,13 +1559,15 @@ const Home = () => {
                         key={room.key}
                         type="button"
                         onClick={() => handleSwitchRoom(room.key)}
-                        className={`px-3.5 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                        className={`flex-shrink-0 px-3.5 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
                           isActive
                             ? "bg-[#002045] text-white shadow-sm"
                             : "bg-[#e7eeff] text-[#43474e] hover:text-[#002045] hover:bg-[#d8e3fa]"
                         }`}
                       >
-                        {room.tabLabel}
+                        {/* Show short label on mobile, full label on md+ */}
+                        <span className="md:hidden">{room.tabLabel.split(" ").slice(0, 2).join(" ")}</span>
+                        <span className="hidden md:inline">{room.tabLabel}</span>
                       </button>
                     );
                   })}

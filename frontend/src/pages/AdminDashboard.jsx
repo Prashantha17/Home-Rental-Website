@@ -218,7 +218,7 @@ const AdminDashboard = () => {
                   </div>
                 </div>
 
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto hidden md:block">
                   <table className="w-full text-left text-xs border-collapse">
                     <thead>
                       <tr className="border-b border-gray-200 text-[#43474e] uppercase tracking-wider font-bold">
@@ -283,6 +283,57 @@ const AdminDashboard = () => {
                     </tbody>
                   </table>
                 </div>
+
+                {/* Mobile card list */}
+                <div className="md:hidden space-y-3">
+                  {filteredProperties.map((p) => (
+                    <div key={p.id || p._id} className="border border-gray-100 rounded-2xl p-4 bg-[#f9f9ff] space-y-3">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="min-w-0">
+                          <strong className="font-bold text-[#002045] block text-sm truncate">{p.title}</strong>
+                          <span className="text-xs text-[#74777f]">by {p.owner_name}</span>
+                        </div>
+                        <span className={`flex-shrink-0 px-2.5 py-1 rounded-full text-[11px] font-bold ${
+                          p.status === "Approved" ? "bg-emerald-100 text-emerald-700"
+                          : p.status === "Pending" ? "bg-amber-100 text-amber-700"
+                          : "bg-red-100 text-red-700"
+                        }`}>
+                          {p.status}
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 text-xs">
+                        <div className="bg-white rounded-lg p-2 border border-gray-100">
+                          <span className="text-[#74777f] block">Location</span>
+                          <span className="font-semibold text-[#002045]">{p.city}, {p.area}</span>
+                        </div>
+                        <div className="bg-white rounded-lg p-2 border border-gray-100">
+                          <span className="text-[#74777f] block">Monthly Rent</span>
+                          <span className="font-bold text-[#002045]">₹{Number(p.rent || 0).toLocaleString()}</span>
+                        </div>
+                      </div>
+                      {p.status === "Pending" && (
+                        <div className="flex gap-2">
+                          <button
+                            type="button"
+                            disabled={processingPropId === (p.id || p._id)}
+                            onClick={() => handleApproveListing(p.id || p._id)}
+                            className="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-xs cursor-pointer disabled:opacity-50"
+                          >
+                            ✔ Approve
+                          </button>
+                          <button
+                            type="button"
+                            disabled={processingPropId === (p.id || p._id)}
+                            onClick={() => handleRejectListing(p.id || p._id)}
+                            className="flex-1 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold text-xs cursor-pointer disabled:opacity-50"
+                          >
+                            ✖ Reject
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
 
               {/* REGISTERED USERS MANAGEMENT PANEL */}
@@ -296,7 +347,7 @@ const AdminDashboard = () => {
                   </p>
                 </div>
 
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto hidden md:block">
                   <table className="w-full text-left text-xs border-collapse">
                     <thead>
                       <tr className="border-b border-gray-200 text-[#43474e] uppercase tracking-wider font-bold">
@@ -354,6 +405,58 @@ const AdminDashboard = () => {
                       ))}
                     </tbody>
                   </table>
+                </div>
+
+                {/* Mobile card list */}
+                <div className="md:hidden space-y-3">
+                  {users.map((u) => (
+                    <div key={u.id || u._id} className="border border-gray-100 rounded-2xl p-4 bg-[#f9f9ff] space-y-3">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div className="w-9 h-9 rounded-full bg-[#002045] text-white flex items-center justify-center font-bold text-sm flex-shrink-0">
+                            {u.username ? u.username[0].toUpperCase() : "U"}
+                          </div>
+                          <div className="min-w-0">
+                            <strong className="font-bold text-[#002045] block text-sm truncate">{u.username}</strong>
+                            <span className="text-[11px] text-[#74777f] capitalize">{u.role === "user" ? "Tenant" : u.role}</span>
+                          </div>
+                        </div>
+                        <span className={`flex-shrink-0 px-2.5 py-1 rounded-full text-[11px] font-bold ${
+                          u.is_active !== false ? "bg-emerald-100 text-emerald-700" : "bg-red-100 text-red-700"
+                        }`}>
+                          {u.is_active !== false ? "Active" : "Blocked"}
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 text-xs">
+                        <div className="bg-white rounded-lg p-2 border border-gray-100 col-span-2">
+                          <span className="text-[#74777f] block">Email</span>
+                          <span className="font-semibold text-[#002045] break-all">{u.email}</span>
+                        </div>
+                        <div className="bg-white rounded-lg p-2 border border-gray-100">
+                          <span className="text-[#74777f] block">Phone</span>
+                          <span className="font-semibold text-[#002045]">{u.phone || "—"}</span>
+                        </div>
+                        <div className="bg-white rounded-lg p-2 border border-gray-100 flex items-center justify-center">
+                          {u.role !== "admin" ? (
+                            <button
+                              type="button"
+                              disabled={processingUserId === (u.id || u._id)}
+                              onClick={() => handleToggleUserStatus(u.id || u._id)}
+                              className={`w-full py-2 rounded-lg font-bold text-xs cursor-pointer transition-colors disabled:opacity-50 ${
+                                u.is_active !== false
+                                  ? "bg-red-50 text-red-700 hover:bg-red-100 border border-red-200"
+                                  : "bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200"
+                              }`}
+                            >
+                              {u.is_active !== false ? "🚫 Block" : "✔ Activate"}
+                            </button>
+                          ) : (
+                            <span className="text-gray-400 font-semibold text-xs text-center">Admin</span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

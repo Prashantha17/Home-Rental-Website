@@ -54,6 +54,19 @@ const RentalAgreement = () => {
   const [signatureMode, setSignatureMode] = useState("draw"); // "draw" | "type"
   const [signeeRole, setSigneeRole] = useState(role === "owner" ? "landlord" : "tenant");
 
+  // Register non-passive touch listeners so e.preventDefault() actually blocks scroll
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const preventScroll = (e) => { if (isDrawing) e.preventDefault(); };
+    canvas.addEventListener("touchmove", preventScroll, { passive: false });
+    canvas.addEventListener("touchstart", preventScroll, { passive: false });
+    return () => {
+      canvas.removeEventListener("touchmove", preventScroll);
+      canvas.removeEventListener("touchstart", preventScroll);
+    };
+  }, [isDrawing]);
+
   // Helper to apply booking data directly into agreement form
   const applyBookingToForm = useCallback((b, showToast = true) => {
     if (!b) return;
@@ -178,25 +191,39 @@ const RentalAgreement = () => {
 
   // Signature Canvas Drawing Logic
   const startDrawing = (e) => {
+    // Prevent page scroll when drawing on touch devices
+    if (e.touches) e.preventDefault();
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     const rect = canvas.getBoundingClientRect();
-    const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
-    const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+    // Scale touch/mouse coords to match canvas internal resolution
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const clientX = e.clientX ?? e.touches?.[0]?.clientX ?? 0;
+    const clientY = e.clientY ?? e.touches?.[0]?.clientY ?? 0;
+    const x = (clientX - rect.left) * scaleX;
+    const y = (clientY - rect.top) * scaleY;
     ctx.beginPath();
     ctx.moveTo(x, y);
     setIsDrawing(true);
   };
 
   const draw = (e) => {
+    // Prevent page scroll when drawing on touch devices
+    if (e.touches) e.preventDefault();
     if (!isDrawing) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     const rect = canvas.getBoundingClientRect();
-    const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
-    const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+    // Scale touch/mouse coords to match canvas internal resolution
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const clientX = e.clientX ?? e.touches?.[0]?.clientX ?? 0;
+    const clientY = e.clientY ?? e.touches?.[0]?.clientY ?? 0;
+    const x = (clientX - rect.left) * scaleX;
+    const y = (clientY - rect.top) * scaleY;
     ctx.lineTo(x, y);
     ctx.strokeStyle = "#002045";
     ctx.lineWidth = 2.5;
